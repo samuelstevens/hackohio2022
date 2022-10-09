@@ -32,15 +32,17 @@
 </script>
 
 {#if visible}
-<h1 in:grow="{{ duration: 800 }}" on:introend="{() => visible = false}">{toGo + 1}</h1>
+  <h1 in:grow={{ duration: 800 }} on:introend={() => (visible = false)}>
+    {toGo + 1}
+  </h1>
 {/if}
 
 <style>
-h1 {
-  top: 100px;
-  position: absolute;
-  font-size: 256px;
-  font-weight: bold;
-  z-index: 1;
-}
+  h1 {
+    top: 100px;
+    position: absolute;
+    font-size: 256px;
+    font-weight: bold;
+    z-index: 1;
+  }
 </style>

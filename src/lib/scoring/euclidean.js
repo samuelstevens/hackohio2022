@@ -94,7 +94,7 @@ export default function calculateScore(data1, data2, ignorePointThreshold) {
         //Score is deducted based on how far away the points are.
         finalScore -= (distance * WEIGHT[i]) / SCORE_HARSHNESS;
         data2.keypoints[i].pointsLost = finalScore;
-      }else{
+      } else {
         data2.keypoints[i].pointsLost = 0;
       }
     }

@@ -110,19 +110,17 @@
   };
 
   const drawKeypoints = (keypoints) => {
-
     keypoints.forEach(drawKeypoint);
   };
 
   const drawKeypoint = (keypoint) => {
-
     //The values of color and radius when correct.
     var radius = 3;
     var color = white;
 
     //If the given point has a score attached to it, use the score to determine color.
-    if(pointScores[keypoint.name] != null){
-      if(pointScores[keypoint.name] > 0){
+    if (pointScores[keypoint.name] != null) {
+      if (pointScores[keypoint.name] > 0) {
         //The values of color and radius when incorrect.
         color = red;
         radius += 5;
@@ -180,7 +178,7 @@
 
 <div>
   {#if mirror}
-    <canvas bind:this={canvas} style=" transform: scaleX(-1);"/>
+    <canvas bind:this={canvas} style=" transform: scaleX(-1);" />
   {:else}
     <canvas bind:this={canvas} />
   {/if}

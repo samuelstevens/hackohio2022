@@ -42,10 +42,10 @@
     if (filePoses.length < 1 || webcamPoses.length < 1) {
       return 0;
     }
-
-    // return scoring.armAngleScore(filePoses[0], webcamPoses[0], 0.5, 0.3);
-    // return scoring.scaledCosineScore(filePoses[0], webcamPoses[0]);
-    return scoring.euclideanScore(filePoses[0], webcamPoses[0], 0.3);
+    
+    // Between 0 and 0.3, and bigger is bad
+    const armScore = Math.min(scoring.armAngleScore(filePoses[0], webcamPoses[0]), 0.3);
+    return scoring.euclideanScore(filePoses[0], webcamPoses[0], 0.3) + armScore;
   };
 
   const renderFrame = () => {
@@ -68,10 +68,11 @@
     scores.push(score);
 
     //Sets the value of pointScores to color points differently when they are inncorrect.
-    for(var i=0; i<webcamVideo.poses[0].keypoints.length; i++){
-      webcamVideo.pointScores[webcamVideo.poses[0].keypoints[i].name] = webcamVideo.poses[0].keypoints[i].pointsLost;
+    for (var i = 0; i < webcamVideo.poses[0].keypoints.length; i++) {
+      webcamVideo.pointScores[webcamVideo.poses[0].keypoints[i].name] =
+        webcamVideo.poses[0].keypoints[i].pointsLost;
     }
-    
+
     setTimeout(() => {
       frame = requestAnimationFrame(renderFrame);
     }, scoreInterval);
@@ -170,6 +171,7 @@
   {:else}
     <button on:click={startGame}>Play!</button>
   {/if}
+  <!-- <h1>{score}</h1> -->
   <div class="grid">
     <div class="col">
       <CanvasTracker bind:this={fileVideo} mirror={false} />

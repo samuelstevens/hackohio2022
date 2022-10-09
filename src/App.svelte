@@ -4,7 +4,7 @@
 
   import CanvasTracker from "./lib/CanvasTracker.svelte";
   // import Animation from "./lib/Animation.svelte";
-  import { simpleCosine, scaledCosine } from "./lib/scoring.js";
+  import scoring from "./lib/scoring";
 
   let animator = null;
 
@@ -33,7 +33,7 @@
       return 0;
     }
 
-    return scaledCosine(filePoses[0], webcamPoses[0]);
+    return scoring.euclideanScore(filePoses[0], webcamPoses[0]);
   };
 
   const renderFrame = () => {

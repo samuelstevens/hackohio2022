@@ -32,6 +32,11 @@
       cancelAnimationFrame(frame);
     }
     gamePlaying = false;
+
+    //Sets the value of pointScores to color points differently when they are inncorrect.
+    for (var i = 0; i < webcamVideo.poses[0].keypoints.length; i++) {
+      webcamVideo.pointScores[webcamVideo.poses[0].keypoints[i].name] = 0;
+    }
   };
 
   // Scoring

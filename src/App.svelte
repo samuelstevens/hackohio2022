@@ -174,7 +174,7 @@
   <!-- <h1>{score}</h1> -->
   <div class="grid">
     <div class="col">
-      <CanvasTracker bind:this={fileVideo} mirror={false} />
+      <CanvasTracker bind:this={fileVideo} mirror={true} />
       <div id="top-bar">
         <form on:change|preventDefault={uploadVideoFile}>
           <label for="videofile">Upload a video file:</label>

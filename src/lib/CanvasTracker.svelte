@@ -7,6 +7,8 @@
   // Constants
   const white = "#ffffff";
   const threshold = 0.4;
+  const paddingY = 60;
+  const paddingX = 10;
 
   // HTML elements
   // We need to export video even though it's not a prop
@@ -20,6 +22,10 @@
   let detector = null;
   export let poses = [];
 
+  // For drawing
+  let ratio = 1;
+  let scaledWidth = 1;
+  let offsetX = 0;
   let frame = null;
 
   const loadModel = async () => {
@@ -36,8 +42,14 @@
       throw new Error("Video does not exist!");
     }
 
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+    const maxHeight = window.innerHeight - canvas.offsetTop - paddingY;
+
+    canvas.width = window.innerWidth / 2 - paddingX;
+    canvas.height = maxHeight;
+
+    ratio = canvas.height / video.videoHeight;
+    scaledWidth = ratio * video.videoWidth;
+    offsetX = (canvas.width - scaledWidth) / 2;
 
     ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -68,6 +80,7 @@
 
   const animate = async () => {
     if (detector) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       poses = await detector.estimatePoses(video, { maxPoses: 1 });
       drawFrame(poses);
     }
@@ -76,7 +89,7 @@
   };
 
   const drawFrame = (poses) => {
-    ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+    ctx.drawImage(video, offsetX, 0, scaledWidth, canvas.height);
 
     poses.forEach(drawPose);
   };
@@ -109,7 +122,7 @@
 
     if (score > threshold) {
       const circle = new Path2D();
-      circle.arc(keypoint.x, keypoint.y, radius, 0, 2 * Math.PI);
+      circle.arc(keypoint.x * ratio + offsetX, keypoint.y * ratio, radius, 0, 2 * Math.PI);
       ctx.fill(circle);
       ctx.stroke(circle);
     }
@@ -130,8 +143,8 @@
 
       if (score1 >= threshold && score2 >= threshold) {
         ctx.beginPath();
-        ctx.moveTo(kp1.x, kp1.y);
-        ctx.lineTo(kp2.x, kp2.y);
+        ctx.moveTo(kp1.x * ratio + offsetX, kp1.y * ratio);
+        ctx.lineTo(kp2.x * ratio + offsetX, kp2.y * ratio);
         ctx.stroke();
       }
     });

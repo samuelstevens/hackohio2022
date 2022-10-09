@@ -3,7 +3,7 @@
   import "@tensorflow/tfjs-backend-webgl";
 
   import CanvasTracker from "./lib/CanvasTracker.svelte";
-  // import Animation from "./lib/Animation.svelte";
+  import Animator from "./lib/Animator.svelte";
   import scoring from "./lib/scoring";
 
   let animator = null;
@@ -16,6 +16,7 @@
   let frame = null;
   let score = "Waiting...";
 
+  // Start/stop
   const startGame = () => {
     frame = requestAnimationFrame(renderFrame);
     gamePlaying = true;
@@ -28,6 +29,10 @@
     gamePlaying = false;
   };
 
+  // Scoring
+  const scoreInterval = 100;
+  const scores = [];
+
   const getScore = (filePoses, webcamPoses) => {
     if (filePoses.length < 1 || webcamPoses.length < 1) {
       return 0;
@@ -35,6 +40,7 @@
 
     return scoring.euclideanScore(filePoses[0], webcamPoses[0], 0.3);
     // return scoring.armAngleScore(filePoses[0], webcamPoses[0], 0.5, 0.3);
+    // return scoring.scaledCosineScore(filePoses[0], webcamPoses[0]);
   };
 
   const renderFrame = () => {
@@ -54,11 +60,42 @@
     const filePoses = fileVideo.poses;
 
     score = getScore(filePoses, webcamPoses);
+    scores.push(score);
 
     setTimeout(() => {
       frame = requestAnimationFrame(renderFrame);
-    }, 10);
+    }, scoreInterval);
   };
+
+  // Feedback
+  const feedbackInterval = 2000;
+
+  const sendFeedback = () => {
+    if (!gamePlaying) {
+      return;
+    }
+
+    if (!animator) {
+      return;
+    }
+
+    // Measure average score in the feedback interval
+    const count = feedbackInterval / scoreInterval;
+    const relevantScores = scores.slice(-count);
+    const meanScore = relevantScores.reduce((x, iter) => x + iter, 0) / count;
+
+    if (meanScore > 0.9) {
+      animator.perfect();
+    } else if (meanScore > 0.7) {
+      animator.great();
+    } else if (meanScore > 0.5) {
+      animator.good();
+    } else {
+      animator.bad();
+    }
+  };
+
+  const feedback = setInterval(sendFeedback, feedbackInterval);
 
   let webcamVideo = null;
   const initWebcam = async () => {
@@ -113,19 +150,25 @@
 </script>
 
 <main>
+  <Animator bind:this={animator} />
   <h1>Just Dance - TikTok Edition</h1>
   {#if gamePlaying}
     <button on:click={stopGame}>Pause</button>
   {:else}
     <button on:click={startGame}>Play!</button>
   {/if}
-  <h2>{score}</h2>
-  <!-- <Animation bind:this={animator} /> -->
-  <!-- <button on:click={animator.fire}>Fire</button> -->
+  <!-- <h2> -->
+  <!--   {#if typeof score === 'number'} -->
+  <!--     {(score * 100).toFixed(0)} -->
+  <!--   {:else} -->
+  <!--     {score} -->
+  <!--   {/if} -->
+  <!-- </h2> -->
   <div class="grid">
     <div class="col">
+      <CanvasTracker bind:this={fileVideo} />
       <div id="top-bar">
-        <form on:submit|preventDefault={uploadVideoFile}>
+        <form on:change|preventDefault={uploadVideoFile}>
           <label for="videofile">Upload a video file:</label>
           <input
             type="file"
@@ -134,10 +177,8 @@
             accept="video/*"
             bind:this={inputElem}
           />
-          <button id="submit">Play</button>
         </form>
       </div>
-      <CanvasTracker bind:this={fileVideo} />
     </div>
     <div class="col">
       <CanvasTracker bind:this={webcamVideo} />

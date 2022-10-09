@@ -33,7 +33,7 @@
       return 0;
     }
 
-    return scoring.euclideanScore(filePoses[0], webcamPoses[0], 0.5, 0.3);
+    return scoring.armAngleScore(filePoses[0], webcamPoses[0], 0.5, 0.3);
   };
 
   const renderFrame = () => {

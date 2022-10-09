@@ -33,7 +33,7 @@
       return 0;
     }
 
-    return scoring.euclideanScore(filePoses[0], webcamPoses[0], 0.5, 0.3);
+    return scoring.euclideanScore(filePoses[0], webcamPoses[0], 0.3);
   };
 
   const renderFrame = () => {
@@ -56,7 +56,7 @@
 
     setTimeout(() => {
       frame = requestAnimationFrame(renderFrame);
-    }, 500);
+    }, 10);
   };
 
   let webcamVideo = null;

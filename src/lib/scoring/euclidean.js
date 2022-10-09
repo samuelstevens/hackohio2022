@@ -1,14 +1,17 @@
-//How precise data needs to be to be used.
-const CONFIDENCE_THRESHOLD = 0.3;
-
+//How much mistakes will impact your score. A lower number means that impacts will take more points.
 const SCORE_HARSHNESS = 10;
 
+//How much each point will count twoards your score compared to other points.
 const WEIGHT = [
-  0.5, 0.5, 0.5, 0.5, 0.5, 1.5, 1.5, 2, 2, 1.5, 1.5, 1, 1, 1, 1, 1, 1,
+  0.5, 0.5, 0.5, 0.5, 0.5, 1.5, 1.5, 2, 2, 1.5, 1.5, 1, 1, 1, 1, 1, 1
+];
+
+//The forgivness of each point. (0.3 seems to be a good minimum)
+const CLOSENESS = [
+  0.3, 0.3, 0.3, 0.3, 0.3, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3
 ];
 
 //Returns the distance given between two points. (Applies the distance formula).
-//Parameters are arrays of size 2.
 function _distanceBetweenPoints(point1, point2) {
   return Math.sqrt(
     Math.pow(point2.x - point1.x, 2) + Math.pow(point2.y - point1.y, 2)
@@ -64,7 +67,6 @@ function _centerTorso(data) {
 export default function calculateScore(
   data1,
   data2,
-  closeEnoughThreshold,
   ignorePointThreshold
 ) {
   //The score that will be returned.
@@ -91,8 +93,7 @@ export default function calculateScore(
       var distance = _distanceBetweenPoints(positions1[i], positions2[i]);
 
       //And the distance is outside the closeEnough threshold.
-      if (distance > closeEnoughThreshold) {
-        console.log(WEIGHT[i]);
+      if (distance > CLOSENESS[i]) {
         //Score is deducted based on how far away the points are.
         finalScore -= (distance * WEIGHT[i]) / SCORE_HARSHNESS;
       }
@@ -101,8 +102,5 @@ export default function calculateScore(
 
   //Getting a value of [0, 1] for final score.
   finalScore = Math.max(0, finalScore);
-
-  console.log("Lost " + (1 - finalScore) + " points!");
-
   return finalScore;
 }

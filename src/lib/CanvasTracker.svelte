@@ -23,6 +23,7 @@
   export let poses = [];
 
   // For drawing
+  export let mirror = true;
   let ratio = 1;
   let scaledWidth = 1;
   let offsetX = 0;
@@ -159,14 +160,18 @@
 </script>
 
 <div>
-  <canvas bind:this={canvas} />
+  {#if mirror}
+    <canvas bind:this={canvas} style=" transform: scaleX(-1);"/>
+  {:else}
+    <canvas bind:this={canvas} />
+  {/if}
   <video bind:this={video} />
 </div>
 
 <style>
-  canvas {
+  /*canvas {
     transform: scaleX(-1);
-  }
+  }*/
   video {
     visibility: hidden;
     height: 0;

@@ -1,6 +1,6 @@
 <script>
   import { fade } from "svelte/transition";
-  import { quartOut } from "svelte/easing";
+  import { backOut } from "svelte/easing";
 
   export let splash;
   export let visible = false;
@@ -10,7 +10,7 @@
     return {
       duration: duration,
       css: (t) => {
-        const eased = quartOut(t);
+        const eased = backOut(t);
 
         return `
           transform: scale(${eased}) translate(${(eased - 1) * x}px, ${
@@ -24,8 +24,8 @@
 
 {#if visible}
   <div
-    in:pop={{ duration: duration, x: 150, y: 0 }}
-    out:pop={{ duration: 100, x: 150, y: 0 }}
+    in:pop={{ duration: duration, x: 300, y: 0 }}
+    out:pop={{ duration: 100, x: 300, y: 0 }}
   >
     <img src={splash} />
   </div>
@@ -35,7 +35,7 @@
   div {
     position: absolute;
     z-index: 1;
-    width: 50%;
+    width: 40%;
   }
 
   img {

@@ -32,7 +32,7 @@
   };
 </script>
 
-<Feedback visible={_perfect} splash={perfectSplash} />
-<Feedback visible={_great} splash={greatSplash} />
-<Feedback visible={_good} splash={goodSplash} />
-<Feedback visible={_bad} splash={badSplash} />
+<Feedback visible={_perfect} splash={perfectSplash} duration={500} />
+<Feedback visible={_great} splash={greatSplash} duration={500} />
+<Feedback visible={_good} splash={goodSplash} duration={500} />
+<Feedback visible={_bad} splash={badSplash} duration={500} />

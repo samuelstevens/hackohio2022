@@ -4,6 +4,7 @@
 
   import CanvasTracker from "./lib/CanvasTracker.svelte";
   import Animator from "./lib/Animator.svelte";
+  import Countdown from "./lib/Countdown.svelte";
   import scoring from "./lib/scoring";
 
   let animator = null;
@@ -12,14 +13,18 @@
   let videoPose = null;
   let liveStream = null;
   let livePost = null;
-  let gamePlaying = false;
   let frame = null;
   let score = "Waiting...";
 
+  let gamePlaying = false;
+  let countdown = null;
+
   // Start/stop
   const startGame = () => {
-    frame = requestAnimationFrame(renderFrame);
-    gamePlaying = true;
+    countdown.start(() => {
+      frame = requestAnimationFrame(renderFrame);
+      gamePlaying = true;
+    });
   };
 
   const stopGame = () => {
@@ -38,9 +43,9 @@
       return 0;
     }
 
-    return scoring.euclideanScore(filePoses[0], webcamPoses[0], 0.3);
     // return scoring.armAngleScore(filePoses[0], webcamPoses[0], 0.5, 0.3);
     // return scoring.scaledCosineScore(filePoses[0], webcamPoses[0]);
+    return scoring.euclideanScore(filePoses[0], webcamPoses[0], 0.3);
   };
 
   const renderFrame = () => {
@@ -68,7 +73,7 @@
   };
 
   // Feedback
-  const feedbackInterval = 2000;
+  const feedbackInterval = 1500;
 
   const sendFeedback = () => {
     if (!gamePlaying) {
@@ -83,6 +88,8 @@
     const count = feedbackInterval / scoreInterval;
     const relevantScores = scores.slice(-count);
     const meanScore = relevantScores.reduce((x, iter) => x + iter, 0) / count;
+
+    console.log(relevantScores, meanScore, count);
 
     if (meanScore > 0.9) {
       animator.perfect();
@@ -152,21 +159,15 @@
 <main>
   <Animator bind:this={animator} />
   <h1>Just Dance - TikTok Edition</h1>
+  <Countdown bind:this={countdown} />
   {#if gamePlaying}
     <button on:click={stopGame}>Pause</button>
   {:else}
     <button on:click={startGame}>Play!</button>
   {/if}
-  <!-- <h2> -->
-  <!--   {#if typeof score === 'number'} -->
-  <!--     {(score * 100).toFixed(0)} -->
-  <!--   {:else} -->
-  <!--     {score} -->
-  <!--   {/if} -->
-  <!-- </h2> -->
   <div class="grid">
     <div class="col">
-      <CanvasTracker bind:this={fileVideo} />
+      <CanvasTracker bind:this={fileVideo} mirror={false} />
       <div id="top-bar">
         <form on:change|preventDefault={uploadVideoFile}>
           <label for="videofile">Upload a video file:</label>

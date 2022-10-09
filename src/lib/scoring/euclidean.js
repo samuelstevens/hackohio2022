@@ -3,12 +3,13 @@ const SCORE_HARSHNESS = 10;
 
 //How much each point will count twoards your score compared to other points.
 const WEIGHT = [
-  0.5, 0.5, 0.5, 0.5, 0.5, 1.5, 1.5, 2, 2, 1.5, 1.5, 1, 1, 1, 1, 1, 1
+  0.5, 0.5, 0.5, 0.5, 0.5, 1.5, 1.5, 2, 2, 1.5, 1.5, 1, 1, 1, 1, 1, 1,
 ];
 
 //The forgivness of each point. (0.3 seems to be a good minimum)
 const CLOSENESS = [
-  0.3, 0.3, 0.3, 0.3, 0.3, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3
+  0.3, 0.3, 0.3, 0.3, 0.3, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.3, 0.3, 0.3, 0.3,
+  0.3, 0.3,
 ];
 
 //Returns the distance given between two points. (Applies the distance formula).
@@ -64,11 +65,7 @@ function _centerTorso(data) {
 //Calculates a score between 0(worst) and 1(best) based on how close the points are.
 //If two points are within the 'closeEnoughThreshold' then no points will be lost.
 //If a points accuracy score is under the ignorePointThreshold it will be ignored in calculations.
-export default function calculateScore(
-  data1,
-  data2,
-  ignorePointThreshold
-) {
+export default function calculateScore(data1, data2, ignorePointThreshold) {
   //The score that will be returned.
   var finalScore = 1;
 

@@ -1,7 +1,9 @@
 //Returns the distance given between two points. (Applies the distance formula).
 //Parameters are arrays of size 2.
-function _distanceBetweenPoints(point1, point2){
-    return Math.sqrt(Math.pow(point2.x-point1.x, 2) + Math.pow(point2.y-point1.y, 2));
+function _distanceBetweenPoints(point1, point2) {
+  return Math.sqrt(
+    Math.pow(point2.x - point1.x, 2) + Math.pow(point2.y - point1.y, 2)
+  );
 }
 
 //Will adjust all points in data so that the torso is equal to length 1
@@ -60,81 +62,186 @@ export default function shoulderAndArmAngle(data1, data2) {
   var positions2 = data2.keypoints;
 
   //The vector between the shoulder and the elbow on the left side
-  var vectorALeft1 = {y: positions1[7].y - positions1[5].y, x: positions1[7].x - positions1[5].x};
+  var vectorALeft1 = {
+    y: positions1[7].y - positions1[5].y,
+    x: positions1[7].x - positions1[5].x,
+  };
   //The vector between the elbow and the hand on the left side
-  var vectorBLeft1 = {y: positions1[9].y - positions1[7].y, x: positions1[9].x - positions1[7].x};
+  var vectorBLeft1 = {
+    y: positions1[9].y - positions1[7].y,
+    x: positions1[9].x - positions1[7].x,
+  };
 
   //The vector between the shoulder and the elbow on the left side
-  var vectorALeft2 = {y: positions2[7].y - positions2[5].y, x: positions2[7].x - positions2[5].x};
+  var vectorALeft2 = {
+    y: positions2[7].y - positions2[5].y,
+    x: positions2[7].x - positions2[5].x,
+  };
   //The vector between the elbow and the hand on the left side
-  var vectorBLeft2 = {y: positions2[9].y - positions2[7].y, x: positions2[9].x - positions2[7].x};
+  var vectorBLeft2 = {
+    y: positions2[9].y - positions2[7].y,
+    x: positions2[9].x - positions2[7].x,
+  };
 
   //The vector between the shoulder and the elbow on the right side
-  var vectorARight1 = {y: positions1[8].y - positions1[6].y, x: positions1[8].x - positions1[6].x};
+  var vectorARight1 = {
+    y: positions1[8].y - positions1[6].y,
+    x: positions1[8].x - positions1[6].x,
+  };
   //The vector between the elbow and the hand on the right side
-  var vectorBRight1 = {y: positions1[10].y - positions1[8].y, x: positions1[10].x - positions1[8].x};
+  var vectorBRight1 = {
+    y: positions1[10].y - positions1[8].y,
+    x: positions1[10].x - positions1[8].x,
+  };
 
   //The vector between the shoulder and the elbow on the right side
-  var vectorARight2 = {y: positions2[8].y - positions2[6].y, x: positions2[8].x - positions2[6].x};
+  var vectorARight2 = {
+    y: positions2[8].y - positions2[6].y,
+    x: positions2[8].x - positions2[6].x,
+  };
   //The vector between the elbow and the hand on the right side
-  var vectorBRight2 = {y: positions2[10].y - positions2[8].y, x: positions2[10].x - positions2[8].x};
+  var vectorBRight2 = {
+    y: positions2[10].y - positions2[8].y,
+    x: positions2[10].x - positions2[8].x,
+  };
 
   //The angle at the elbow on the left side
   var leftAngle1;
-  if (((vectorALeft1.x * vectorBLeft1.x) + (vectorALeft1.y * vectorBLeft1.y)) > Math.PI)
-  {
-     leftAngle1 = Math.acos(Math.PI - ((vectorALeft1.x * vectorBLeft1.x) + (vectorALeft1.y * vectorBLeft1.y)) / (_distanceBetweenPoints(positions1[7], positions1[5]) * _distanceBetweenPoints(positions1[9], positions1[7])));
-  }
-  else {
-    var leftAngle1 = Math.acos(((vectorALeft1.x * vectorBLeft1.x) + (vectorALeft1.y * vectorBLeft1.y)) / (_distanceBetweenPoints(positions1[7], positions1[5]) * _distanceBetweenPoints(positions1[9], positions1[7])));
+  if (
+    vectorALeft1.x * vectorBLeft1.x + vectorALeft1.y * vectorBLeft1.y >
+    Math.PI
+  ) {
+    leftAngle1 = Math.acos(
+      Math.PI -
+        (vectorALeft1.x * vectorBLeft1.x + vectorALeft1.y * vectorBLeft1.y) /
+          (_distanceBetweenPoints(positions1[7], positions1[5]) *
+            _distanceBetweenPoints(positions1[9], positions1[7]))
+    );
+  } else {
+    var leftAngle1 = Math.acos(
+      (vectorALeft1.x * vectorBLeft1.x + vectorALeft1.y * vectorBLeft1.y) /
+        (_distanceBetweenPoints(positions1[7], positions1[5]) *
+          _distanceBetweenPoints(positions1[9], positions1[7]))
+    );
   }
   //The angle at the elbow on the left side
   var leftAngle2;
-  if (((vectorALeft2.x * vectorBLeft2.x) + (vectorALeft2.y * vectorBLeft2.y)) > Math.PI) {
-    leftAngle2 = Math.acos(Math.PI - ((vectorALeft2.x * vectorBLeft2.x) + (vectorALeft2.y * vectorBLeft2.y)) / (_distanceBetweenPoints(positions2[7], positions2[5]) * _distanceBetweenPoints(positions2[9], positions2[7])));
-  }
-  else {
-    leftAngle2 = Math.acos(((vectorALeft2.x * vectorBLeft2.x) + (vectorALeft2.y * vectorBLeft2.y)) / (_distanceBetweenPoints(positions2[7], positions2[5]) * _distanceBetweenPoints(positions2[9], positions2[7])));
+  if (
+    vectorALeft2.x * vectorBLeft2.x + vectorALeft2.y * vectorBLeft2.y >
+    Math.PI
+  ) {
+    leftAngle2 = Math.acos(
+      Math.PI -
+        (vectorALeft2.x * vectorBLeft2.x + vectorALeft2.y * vectorBLeft2.y) /
+          (_distanceBetweenPoints(positions2[7], positions2[5]) *
+            _distanceBetweenPoints(positions2[9], positions2[7]))
+    );
+  } else {
+    leftAngle2 = Math.acos(
+      (vectorALeft2.x * vectorBLeft2.x + vectorALeft2.y * vectorBLeft2.y) /
+        (_distanceBetweenPoints(positions2[7], positions2[5]) *
+          _distanceBetweenPoints(positions2[9], positions2[7]))
+    );
   }
   //The angle at the elbow on the right side
   var rightAngle1;
-  if (((vectorARight1.x * vectorBRight1.x) + (vectorARight1.y * vectorBRight1.y)) > Math.PI) {
-    rightAngle1 = Math.acos(Math.PI - ((vectorARight1.x * vectorBRight1.x) + (vectorARight1.y * vectorBRight1.y)) / (_distanceBetweenPoints(positions1[7], positions1[5]) * _distanceBetweenPoints(positions1[9], positions1[7])));
-  }
-  else {
-    rightAngle1 = Math.acos(((vectorARight1.x * vectorBRight1.x) + (vectorARight1.y * vectorBRight1.y)) / (_distanceBetweenPoints(positions1[7], positions1[5]) * _distanceBetweenPoints(positions1[9], positions1[7])));
+  if (
+    vectorARight1.x * vectorBRight1.x + vectorARight1.y * vectorBRight1.y >
+    Math.PI
+  ) {
+    rightAngle1 = Math.acos(
+      Math.PI -
+        (vectorARight1.x * vectorBRight1.x +
+          vectorARight1.y * vectorBRight1.y) /
+          (_distanceBetweenPoints(positions1[7], positions1[5]) *
+            _distanceBetweenPoints(positions1[9], positions1[7]))
+    );
+  } else {
+    rightAngle1 = Math.acos(
+      (vectorARight1.x * vectorBRight1.x + vectorARight1.y * vectorBRight1.y) /
+        (_distanceBetweenPoints(positions1[7], positions1[5]) *
+          _distanceBetweenPoints(positions1[9], positions1[7]))
+    );
   }
   //The angle at the elbow on the right side
   var rightAngle2;
-  if (((vectorARight2.x * vectorBRight2.x) + (vectorARight2.y * vectorBRight2.y)) > Math.PI) {
-    rightAngle2 = Math.acos(Math.PI - ((vectorARight2.x * vectorBRight2.x) + (vectorARight2.y * vectorBRight2.y)) / (_distanceBetweenPoints(positions2[7], positions2[5]) * _distanceBetweenPoints(positions2[9], positions2[7])));
+  if (
+    vectorARight2.x * vectorBRight2.x + vectorARight2.y * vectorBRight2.y >
+    Math.PI
+  ) {
+    rightAngle2 = Math.acos(
+      Math.PI -
+        (vectorARight2.x * vectorBRight2.x +
+          vectorARight2.y * vectorBRight2.y) /
+          (_distanceBetweenPoints(positions2[7], positions2[5]) *
+            _distanceBetweenPoints(positions2[9], positions2[7]))
+    );
+  } else {
+    rightAngle2 = Math.acos(
+      (vectorARight2.x * vectorBRight2.x + vectorARight2.y * vectorBRight2.y) /
+        (_distanceBetweenPoints(positions2[7], positions2[5]) *
+          _distanceBetweenPoints(positions2[9], positions2[7]))
+    );
   }
-  else {
-    rightAngle2 = Math.acos(((vectorARight2.x * vectorBRight2.x) + (vectorARight2.y * vectorBRight2.y)) / (_distanceBetweenPoints(positions2[7], positions2[5]) * _distanceBetweenPoints(positions2[9], positions2[7])));
-  }
 
-
-  var leftArmDifference = Math.abs((_distanceBetweenPoints(positions1[9], positions1[7]) + _distanceBetweenPoints(positions1[7], positions1[5])) - (_distanceBetweenPoints(positions2[9], positions2[7]) + _distanceBetweenPoints(positions2[7], positions2[5])));
-  var rightArmDifference = Math.abs((_distanceBetweenPoints(positions1[10], positions1[8]) + _distanceBetweenPoints(positions1[8], positions1[6])) - (_distanceBetweenPoints(positions2[10], positions2[8]) + _distanceBetweenPoints(positions2[8], positions2[6])));
-  var shoulderDifference = Math.abs(_distanceBetweenPoints(positions1[5], positions1[6]) - _distanceBetweenPoints(positions2[5], positions2[6]));
-
+  var leftArmDifference = Math.abs(
+    _distanceBetweenPoints(positions1[9], positions1[7]) +
+      _distanceBetweenPoints(positions1[7], positions1[5]) -
+      (_distanceBetweenPoints(positions2[9], positions2[7]) +
+        _distanceBetweenPoints(positions2[7], positions2[5]))
+  );
+  var rightArmDifference = Math.abs(
+    _distanceBetweenPoints(positions1[10], positions1[8]) +
+      _distanceBetweenPoints(positions1[8], positions1[6]) -
+      (_distanceBetweenPoints(positions2[10], positions2[8]) +
+        _distanceBetweenPoints(positions2[8], positions2[6]))
+  );
+  var shoulderDifference = Math.abs(
+    _distanceBetweenPoints(positions1[5], positions1[6]) -
+      _distanceBetweenPoints(positions2[5], positions2[6])
+  );
 
   //The vector between the shoulder and the elbow on the left side
-  var vectorLeft1 = {y: positions1[9].y - positions1[5].y, x: positions1[9].x - positions1[5].x};
+  var vectorLeft1 = {
+    y: positions1[9].y - positions1[5].y,
+    x: positions1[9].x - positions1[5].x,
+  };
   //The vector between the shoulder and the elbow on the left side
-  var vectorLeft2 = {y: positions2[9].y - positions2[5].y, x: positions2[9].x - positions2[5].x};
+  var vectorLeft2 = {
+    y: positions2[9].y - positions2[5].y,
+    x: positions2[9].x - positions2[5].x,
+  };
 
   //The vector between the shoulder and the elbow on the right side
-  var vectorRight1 = {y: positions1[10].y - positions1[6].y, x: positions1[10].x - positions1[6].x};
+  var vectorRight1 = {
+    y: positions1[10].y - positions1[6].y,
+    x: positions1[10].x - positions1[6].x,
+  };
   //The vector between the shoulder and the elbow on the right side
-  var vectorRight2 = {y: positions2[10].y - positions2[6].y, x: positions2[10].x - positions2[6].x};
+  var vectorRight2 = {
+    y: positions2[10].y - positions2[6].y,
+    x: positions2[10].x - positions2[6].x,
+  };
 
   var res = 0;
-  if (!Number.isNaN((leftArmDifference + rightArmDifference + shoulderDifference))) {
-    res += ((leftArmDifference + rightArmDifference + shoulderDifference));
+  if (
+    !Number.isNaN(leftArmDifference + rightArmDifference + shoulderDifference)
+  ) {
+    res += leftArmDifference + rightArmDifference + shoulderDifference;
   }
-  if (!Number.isNaN(Math.abs(vectorLeft2.x - vectorLeft1.x) + Math.abs(vectorLeft2.y - vectorLeft1.y) + Math.abs(vectorRight2.x - vectorRight1.x) + Math.abs(vectorRight2.y - vectorRight1.y))) {
-    res += Math.abs(vectorLeft2.x - vectorLeft1.x) + Math.abs(vectorLeft2.y - vectorLeft1.y) + Math.abs(vectorRight2.x - vectorRight1.x) + Math.abs(vectorRight2.y - vectorRight1.y);
+  if (
+    !Number.isNaN(
+      Math.abs(vectorLeft2.x - vectorLeft1.x) +
+        Math.abs(vectorLeft2.y - vectorLeft1.y) +
+        Math.abs(vectorRight2.x - vectorRight1.x) +
+        Math.abs(vectorRight2.y - vectorRight1.y)
+    )
+  ) {
+    res +=
+      Math.abs(vectorLeft2.x - vectorLeft1.x) +
+      Math.abs(vectorLeft2.y - vectorLeft1.y) +
+      Math.abs(vectorRight2.x - vectorRight1.x) +
+      Math.abs(vectorRight2.y - vectorRight1.y);
   }
   //if (!Number.isNaN(Math.abs(leftAngle2 - leftAngle1) + Math.abs(rightAngle2 - rightAngle1))) {
   //var res = (Math.abs(leftAngle2 - leftAngle1) + Math.abs(rightAngle2 - rightAngle1));
@@ -143,6 +250,6 @@ export default function shoulderAndArmAngle(data1, data2) {
   //  return 0;
   //}
   //else {
-    return res / 10;
+  return res / 10;
   //}
 }

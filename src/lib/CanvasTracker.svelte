@@ -122,7 +122,13 @@
 
     if (score > threshold) {
       const circle = new Path2D();
-      circle.arc(keypoint.x * ratio + offsetX, keypoint.y * ratio, radius, 0, 2 * Math.PI);
+      circle.arc(
+        keypoint.x * ratio + offsetX,
+        keypoint.y * ratio,
+        radius,
+        0,
+        2 * Math.PI
+      );
       ctx.fill(circle);
       ctx.stroke(circle);
     }

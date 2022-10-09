@@ -243,13 +243,13 @@ export default function shoulderAndArmAngle(data1, data2) {
       Math.abs(vectorRight2.x - vectorRight1.x) +
       Math.abs(vectorRight2.y - vectorRight1.y);
   }
-  //if (!Number.isNaN(Math.abs(leftAngle2 - leftAngle1) + Math.abs(rightAngle2 - rightAngle1))) {
-  //var res = (Math.abs(leftAngle2 - leftAngle1) + Math.abs(rightAngle2 - rightAngle1));
-  //}
-  //  if (res < 0.3) {
-  //  return 0;
-  //}
-  //else {
-  return res / 10;
-  //}
+  if (!Number.isNaN(Math.abs(leftAngle2 - leftAngle1) + Math.abs(rightAngle2 - rightAngle1))) {
+     res = (Math.abs(leftAngle2 - leftAngle1) + Math.abs(rightAngle2 - rightAngle1));
+  }
+  if (res < 0.9) {
+    return 0;
+  }
+  else {
+    return res / 20;
+  }
 }

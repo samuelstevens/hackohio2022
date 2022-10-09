@@ -67,6 +67,11 @@
     score = getScore(filePoses, webcamPoses);
     scores.push(score);
 
+    //Sets the value of pointScores to color points differently when they are inncorrect.
+    for(var i=0; i<webcamVideo.poses[0].keypoints.length; i++){
+      webcamVideo.pointScores[webcamVideo.poses[0].keypoints[i].name] = webcamVideo.poses[0].keypoints[i].pointsLost;
+    }
+    
     setTimeout(() => {
       frame = requestAnimationFrame(renderFrame);
     }, scoreInterval);

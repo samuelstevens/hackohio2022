@@ -6,6 +6,7 @@
 
   // Constants
   const white = "#ffffff";
+  const red = "#FF0000";
   const threshold = 0.4;
   const paddingY = 60;
   const paddingX = 10;
@@ -22,11 +23,15 @@
   let detector = null;
   export let poses = [];
 
+  //Used to determine when points are incorrect so that they can be drawn in a different color.
+  export const pointScores = {};
+
   // For drawing
   export let mirror = true;
   let ratio = 1;
   let scaledWidth = 1;
   let offsetX = 0;
+
   let frame = null;
 
   const loadModel = async () => {
@@ -104,22 +109,36 @@
     }
   };
 
-  const drawKeypoints = (keypoints, color = white, lineWidth = 3) => {
-    ctx.fillStyle = color;
-    ctx.strokeStyle = color;
-    ctx.lineWidth = lineWidth;
+  const drawKeypoints = (keypoints) => {
 
     keypoints.forEach(drawKeypoint);
   };
 
   const drawKeypoint = (keypoint) => {
+
+    //The values of color and radius when correct.
+    var radius = 3;
+    var color = white;
+
+    //If the given point has a score attached to it, use the score to determine color.
+    if(pointScores[keypoint.name] != null){
+      if(pointScores[keypoint.name] > 0){
+        //The values of color and radius when incorrect.
+        color = red;
+        radius += 5;
+      }
+    }
+
+    ctx.lineWidth = 3;
+    ctx.fillStyle = color;
+    ctx.strokeStyle = color;
+
     let score = 1;
     if (keypoint.score) {
       score = keypoint.score;
     }
 
     // TODO: make configurable
-    const radius = 3;
 
     if (score > threshold) {
       const circle = new Path2D();

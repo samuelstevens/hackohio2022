@@ -17,6 +17,9 @@
     "@tensorflow-models/pose-detection": "^2.0.0",
     "@tensorflow/tfjs-backend-webgl": "^3.21.0",
     "@tensorflow/tfjs-converter": "^3.21.0",
-    "@tensorflow/tfjs-core": "^3.21.0"
+    "@tensorflow/tfjs-core": "^3.21.0",
+    "netlify-cli": "^12.0.7",
+    "prettier": "^2.7.1",
+    "prettier-plugin-svelte": "^2.7.1"
   }
 }

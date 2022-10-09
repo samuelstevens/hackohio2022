@@ -7,7 +7,7 @@
   // Constants
   const white = "#ffffff";
   const red = "#FF0000";
-  const threshold = 0.4;
+  const threshold = 0.3;
   const paddingY = 60;
   const paddingX = 10;
 
@@ -27,7 +27,6 @@
   export const pointScores = {};
 
   // For drawing
-  export let mirror = true;
   let ratio = 1;
   let scaledWidth = 1;
   let offsetX = 0;
@@ -177,11 +176,7 @@
 </script>
 
 <div>
-  {#if mirror}
-    <canvas bind:this={canvas} style=" transform: scaleX(-1);" />
-  {:else}
-    <canvas bind:this={canvas} />
-  {/if}
+  <canvas bind:this={canvas} style=" transform: scaleX(-1);" />
   <video bind:this={video} />
 </div>
 

@@ -1,8 +1,10 @@
 //How precise data needs to be to be used.
 const CONFIDENCE_THRESHOLD = 0.3;
 
+//Determines how much the score will decrease with errors. Lower numbers make harsher scoring.
 const SCORE_HARSHNESS = 10;
 
+//How much more/less each point will count twoards the final score.
 const WEIGHT = [
     0.5,
     0.5,
@@ -24,12 +26,11 @@ const WEIGHT = [
 ];
 
 //Returns the distance given between two points. (Applies the distance formula). 
-//Parameters are arrays of size 2.
 function _distanceBetweenPoints(point1, point2){
     return Math.sqrt(Math.pow(point2.x-point1.x, 2) + Math.pow(point2.y-point1.y, 2));
 }
 
-//Will adjust all points in data so that the torso is equal to length 1
+//Will adjust all points in data so that the torso has a height equal to 1
 function _normalize(data){
     //Extracting the points from the data structure.
     var positions = data[0].keypoints;
@@ -64,8 +65,8 @@ function _centerTorso(data){
         point.y -= deltaY;
     }
 
+    //Reconstructing and returning the data.
     data[0].keypoints = points;
-
     return data;
 }
 
@@ -104,10 +105,7 @@ function calculateScore(data1, data2, closeEnoughThreshold, ignorePointThreshold
         }
     }
 
-    //Getting a value of [0, 1] for final score.
+    //Getting a value of [0, 1] for final score and returning it.
     finalScore = Math.max(0, finalScore);
-
-    console.log("Lost " + (1-finalScore) + " points!");
-
     return finalScore;
 }

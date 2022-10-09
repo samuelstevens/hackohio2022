@@ -64,8 +64,8 @@
     const webcamPoses = webcamVideo.poses;
     const filePoses = fileVideo.poses;
 
-    score = getScore(filePoses, webcamPoses);
-    scores.push(score);
+    score = String(getScore(filePoses, webcamPoses));
+    scores.push(parseFloat(score));
 
     //Sets the value of pointScores to color points differently when they are inncorrect.
     for (var i = 0; i < webcamVideo.poses[0].keypoints.length; i++) {
